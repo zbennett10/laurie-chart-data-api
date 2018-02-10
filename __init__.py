@@ -30,13 +30,28 @@ def get_status():
 
 @app.route('/ferritin-levels', methods=['GET'])
 def get_ferritin_levels():
-    ferritinlevel = mongo.db.ferritinlevel
+    ferritinlevels = mongo.db.ferritinlevel
     output = []
-    for level in ferritinlevel.find():
+    for level in ferritinlevels.find():
         output.append(level)
     response = jsonify(dumps(output))
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
+@app.route('/ferritin-level', methods=['POST'])
+def add_ferritin_level():
+    newFerritinLevel = request.get_json(silent=True)
+    ferritinlevels = mongo.db.ferritinlevel
+    addedLevel = ferritinlevels.insert_one(newFerritinLevel)
+    return jsonify(dumps(newFerritinLevel))
+
+@app.route('/ferritin-level', methods=['DELETE'])
+def delete_ferritin_level():
+    id = request.args.get('id', default = None, type = int)
+    if(id != None):
+        ferritinlevels = mongo.db.ferritinlevel
+        deletionResult = ferritinlevels.delete_one({'id': id})
+        return jsonify({"result": "success"})
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, threaded=True)
