@@ -43,7 +43,9 @@ def add_ferritin_level():
     newFerritinLevel = request.get_json(silent=True)
     ferritinlevels = mongo.db.ferritinlevel
     addedLevel = ferritinlevels.insert_one(newFerritinLevel)
-    return jsonify(dumps(newFerritinLevel))
+    response = jsonify(dumps(newFerritinLevel))
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return  response
 
 @app.route('/ferritin-level', methods=['DELETE'])
 def delete_ferritin_level():
