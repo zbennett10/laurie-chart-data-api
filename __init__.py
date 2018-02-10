@@ -3,9 +3,11 @@ from flask import Flask
 from flask_pymongo import PyMongo
 from flask import request
 from flask import jsonify
+from flask_cors import CORS
 from bson.json_util import dumps
 
 app = Flask(__name__)
+CORS(app)
 
 CONNECTION_STRING = os.environ.get('MONGO_CONNECTION_STRING');
 if not CONNECTION_STRING:
