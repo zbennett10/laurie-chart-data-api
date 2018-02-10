@@ -34,7 +34,9 @@ def get_ferritin_levels():
     output = []
     for level in ferritinlevel.find():
         output.append(level)
-    return jsonify(dumps(output))
+    response = jsonify(dumps(output))
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True)
