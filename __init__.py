@@ -36,18 +36,14 @@ def get_ferritin_levels():
     output = []
     for level in ferritinlevels.find():
         output.append(level)
-    response = jsonify(dumps(output))
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
+    return jsonify(dumps(output))
 
 @app.route('/ferritin-level', methods=['POST'])
 def add_ferritin_level():
     newFerritinLevel = request.get_json(silent=True)
     ferritinlevels = mongo.db.ferritinlevel
     addedLevel = ferritinlevels.insert_one(newFerritinLevel)
-    response = jsonify(dumps(newFerritinLevel))
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return  response
+    return jsonify(dumps(newFerritinLevel))
 
 @app.route('/ferritin-level', methods=['DELETE'])
 def delete_ferritin_level():
