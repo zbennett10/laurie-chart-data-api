@@ -16,6 +16,10 @@ app.config['MONGO_URI'] = CONNECTION_STRING
 
 mongo = PyMongo(app)
 
+@app.route('/', methods=['GET'])
+def get_index():
+    return jsonify({"status": "running"})
+
 @app.route('/test', methods=['GET'])
 def get_status():
     test = mongo.db.test
